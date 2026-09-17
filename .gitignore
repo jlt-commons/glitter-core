@@ -2,3 +2,6 @@
 .nrepl-port
 .jolt/
 .DS_Store
+
+# clojure-lsp's analysis cache, created by any `bb lsp:*` run
+.lsp/.cache/
