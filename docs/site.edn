@@ -1,0 +1,17 @@
+;; Configuration for the documentation site, read by the jlt-commons
+;; docs-engine (https://github.com/jlt-commons/docs-engine).
+;;
+;; Build it locally with `bb site:serve`. CI builds and publishes it from
+;; .github/workflows/site.yml.
+{;; :base-path is what makes this a project site rather than an org one.
+ ;; The site is served at https://jlt-commons.github.io/glitter-core/, so
+ ;; every URL the engine emits needs that prefix. Leave it out and the
+ ;; pages still render, but each one loads the ORGANIZATION site's
+ ;; stylesheet and every image 404s.
+ :base-path   "/glitter-core"
+
+ :title       "glitter-core"
+ :description "The natives-free two-thirds of glitter: its Replicant-style reconciler, the IRender/IMemory protocol seam, hiccup parsing, vdom, and a headless test renderer. No :jolt/native declaration anywhere — a consumer never needs GTK4 or any other native library installed."}
+
+;; No :home-template, no :asset-dirs. The engine renders docs/guide/index.md
+;; as the homepage, and this project has no images to serve yet.

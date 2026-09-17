@@ -5,3 +5,4 @@
 
 # clojure-lsp's analysis cache, created by any `bb lsp:*` run
 .lsp/.cache/
+_site/
