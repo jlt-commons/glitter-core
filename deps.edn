@@ -1,8 +1,16 @@
 {:paths ["src"]
 
- ;; Same floor glitter declares, for the same reason. See glitter's own
- ;; deps.edn for the full history behind this specific value.
- :jolt/min-version "0.7.24"
+ ;; NOT for the same reason glitter/glitter-uikit/uikit-demo declare 0.8.0:
+ ;; this package has zero jolt.ffi/:jolt/native usage (verified via grep —
+ ;; it's the natives-free half of the split), so the ffi/write
+ ;; argument-order fix (#802/#804) that motivates 0.8.0 elsewhere doesn't
+ ;; apply here, and it buys nothing for glitter-uikit/uikit-demo either —
+ ;; they already declare 0.8.0 themselves, and floors combine as the max
+ ;; across the graph. Raised anyway to keep one floor across the whole
+ ;; family rather than a hybrid 0.7.24/0.8.0 split, at the cost of
+ ;; refusing an otherwise-fine 0.7.24-0.7.29 runtime for anyone who
+ ;; depends on this package standalone.
+ :jolt/min-version "0.8.0"
 
  ;; glitter.nexus.action-log's `now` uses tick.core/now (a real Instant),
  ;; so this is glitter-core's one dependency — same pinned SHA glitter
