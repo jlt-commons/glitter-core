@@ -20,7 +20,7 @@
  ;; surface stays exactly jolt-lang/time. local/root sibling checkout, same
  ;; as glitter's own local-only dependency on this package.
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {io.github.jlt-commons/nexus {:local/root "../nexus"}}
+                  :extra-deps {io.github.jlt-commons/nexus-jolt {:local/root "../nexus-jolt"}}
                   :main-opts ["-m" "glitter.test-runner"]}}
 
  :tasks {test "jolt -M:test"}}
