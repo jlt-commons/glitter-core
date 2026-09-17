@@ -1,0 +1,26 @@
+{:paths ["src"]
+
+ ;; Same floor glitter declares, for the same reason. See glitter's own
+ ;; deps.edn for the full history behind this specific value.
+ :jolt/min-version "0.7.24"
+
+ ;; glitter.nexus.action-log's `now` uses tick.core/now (a real Instant),
+ ;; so this is glitter-core's one dependency — same pinned SHA glitter
+ ;; itself uses. Re-verify live before bumping.
+ :deps {io.github.jolt-lang/time
+        {:git/url "https://github.com/jolt-lang/time"
+         :git/sha "33c5e9831c046cfcbe68bc0c9c33e92568eaebb1"}}
+
+ ;; glitter.nexus.action-log-test dispatches through nexus.core/dispatch to
+ ;; exercise the action-log interceptor against a REAL dispatch, not a mock
+ ;; — a genuine test-time dependency the production action_log.clj code
+ ;; itself does not have (it only calls into the interceptor mechanism it
+ ;; defines, never nexus.core directly). Scoped to :extra-deps under :test,
+ ;; not the top-level :deps, so glitter-core's actual production dependency
+ ;; surface stays exactly jolt-lang/time. local/root sibling checkout, same
+ ;; as glitter's own local-only dependency on this package.
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {io.github.jlt-commons/nexus {:local/root "../nexus"}}
+                  :main-opts ["-m" "glitter.test-runner"]}}
+
+ :tasks {test "jolt -M:test"}}

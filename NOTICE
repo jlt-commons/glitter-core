@@ -1,0 +1,99 @@
+# Third-party code
+
+glitter-core's own code is licensed under the Eclipse Public License 2.0
+(see LICENSE, Copyright 2026 Burin Choomnuan). The vendored third-party
+code keeps the license it came with, which EPL 2.0 does not change. This
+file is the authoritative, file-by-file record of what came from where,
+and carries the full text of each upstream license, which applies to
+those files in addition to glitter-core's own.
+
+Extracted from [jlt-commons/glitter](https://github.com/jlt-commons/glitter):
+the toolkit-agnostic two-thirds of that project, split out so a consumer
+that never touches GTK4 doesn't have to install it. `glitter` itself now
+depends on this package. See glitter's own NOTICE, at the commit this was
+extracted from, for the complete original record.
+
+## Replicant
+
+The following files are ported from
+[Replicant](https://github.com/cjohansen/replicant), commit
+`379bb3c1ad4d5d3002c57e67ab647d12f3c2d322` (2026-07-25), by Christian
+Johansen. Porting is a mechanical rename (`replicant.*` → `glitter.*`,
+including the `:replicant/*` keyword namespace) via
+`sed -E 's/\breplicant\b/glitter/g'`, with any further deviation noted in
+that file's header comment. Paths are unchanged from glitter, since
+glitter-core keeps the same `glitter.*` namespace names.
+
+Copyright 2023-2025 Christian Johansen. MIT License:
+
+```
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+- `src/glitter/protocols.clj` — `src/replicant/protocols.cljc`
+- `src/glitter/hiccup.clj` — `src/replicant/hiccup.cljc`
+- `src/glitter/hiccup_headers.clj` — `src/replicant/hiccup_headers.cljc`
+- `src/glitter/console_logger.clj` — `src/replicant/console_logger.cljc`
+- `src/glitter/errors.clj` — `src/replicant/errors.cljc`
+- `src/glitter/assert.clj` — `src/replicant/assert.cljc`
+- `src/glitter/vdom.clj` — `src/replicant/vdom.cljc`
+- `src/glitter/asserts.clj` — `src/replicant/asserts.cljc`
+- `src/glitter/core.clj` — `src/replicant/core.cljc` (three deliberate
+  deviations, carried over unchanged from the glitter port —
+  `build-event-map`'s `:clj` branch reads `:glitter/node` from `e`
+  instead of hardcoding nil; `set-dispatch!` is new code, not a port;
+  `update-attr`/`set-attributes` route on `some?` instead of truthiness
+  so an explicit `false` prop reaches the renderer — see the file's own
+  header for detail)
+- `src/glitter/alias.clj` — `src/replicant/alias.cljc`
+
+## nexus
+
+`src/glitter/nexus/action_log.clj` ports a CONCEPT (not a literal file)
+from `nexus.action-log` + `nexus.inspector`
+(https://github.com/cjohansen/nexus), commit
+`5f6c93672f25d2a5b2a91ac3b65a921ecf8826b2`, by Christian Johansen, Magnar
+Sveen, and Teodor Heggelund. MIT License — same terms as the Replicant
+bucket above (see that bucket's license block for the full text), under
+copyright 2025 Christian Johansen, Magnar Sveen, Teodor Heggelund.
+
+There is no single upstream file to mirror: the log-accumulation logic
+lives inside `nexus.inspector` upstream, entangled with `dataspex.*`
+rendering-protocol implementations with no glitter/GTK equivalent. This
+file ports the accumulation mechanism faithfully (the same nested
+`:entries`/`:chronology` tree) and drops every `dp/*`/dataspex call site.
+Two adaptations, carried over unchanged from the glitter port: `now`
+uses `tick.core/now` instead of `java.util.Date.`; `find-event` reads
+`:glitter/dom-event` directly instead of upstream's generic hunt through
+`dispatch-data`'s values, since glitter's `dispatch-data` always IS the
+event map.
+
+Unlike `nexus.core`/`nexus.registry` (which moved to the standalone
+[jlt-commons/nexus](https://github.com/jlt-commons/nexus) repo because
+nothing in them is glitter-specific), this file's `:glitter/dom-event`
+coupling ties it to glitter's own event shape, so it stays here under
+its original `glitter.nexus.action-log` name.
+
+## glitter's own code
+
+`src/glitter/env.clj` and `src/glitter/test_renderer.clj` are
+glitter-core's own new code (glitter's environment-detection helper and
+its headless in-memory `IRender`/`IMemory` fake, respectively), EPL 2.0
+under the copyright above — not third-party code, listed here only for
+completeness against glitter's own NOTICE, which records the same two
+files as "new code specific to glitter."
