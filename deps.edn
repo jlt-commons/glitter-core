@@ -17,10 +17,12 @@
  ;; itself does not have (it only calls into the interceptor mechanism it
  ;; defines, never nexus.core directly). Scoped to :extra-deps under :test,
  ;; not the top-level :deps, so glitter-core's actual production dependency
- ;; surface stays exactly jolt-lang/time. local/root sibling checkout, same
- ;; as glitter's own local-only dependency on this package.
+ ;; surface stays exactly jolt-lang/time. Pinned now that nexus-jolt has a
+ ;; commit pushed (was :local/root while it was still local-only).
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {io.github.jlt-commons/nexus-jolt {:local/root "../nexus-jolt"}}
+                  :extra-deps {io.github.jlt-commons/nexus-jolt
+                               {:git/url "https://github.com/jlt-commons/nexus-jolt"
+                                :git/sha "18363987bed79f3ec98aaaf6c274cb01dfff88e7"}}
                   :main-opts ["-m" "glitter.test-runner"]}}
 
  :tasks {test "jolt -M:test"}}
