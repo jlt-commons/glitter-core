@@ -13,11 +13,12 @@
  :jolt/min-version "0.8.0"
 
  ;; glitter.nexus.action-log's `now` uses tick.core/now (a real Instant),
- ;; so this is glitter-core's one dependency — same pinned SHA glitter
- ;; itself uses. Re-verify live before bumping.
+ ;; so this is glitter-core's one dependency. v0.0.15: v0.0.8's
+ ;; locale_data.clj ns docstring has unescaped quotes that jolt 0.8.x
+ ;; rejects, so the old pin no longer loads.
  :deps {io.github.jolt-lang/time
         {:git/url "https://github.com/jolt-lang/time"
-         :git/sha "33c5e9831c046cfcbe68bc0c9c33e92568eaebb1"}}
+         :git/sha "80e5fc22d9ddd8ee2f2f525580fbc643d0ecba4c"}}
 
  ;; glitter.nexus.action-log-test dispatches through nexus.core/dispatch to
  ;; exercise the action-log interceptor against a REAL dispatch, not a mock

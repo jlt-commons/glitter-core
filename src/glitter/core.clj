@@ -325,7 +325,9 @@
         ;; Strings could be inline JavaScript, so will be allowed when there is
         ;; no global event handler.
         handler)
-      (throw (ex-info "Cannot use non-function event handler when glitter.core/*dispatch* is not bound to a function"
+      (throw (ex-info (str "Cannot use non-function event handler " (pr-str handler)
+                           " for " (pr-str event) ": no dispatch function is registered."
+                           " Call glitter.core/set-dispatch! before mounting.")
                       {:event event
                        :handler handler
                        :dispatch *dispatch*}))))
@@ -341,7 +343,9 @@
         (fn [e]
           (*dispatch* e handler)))
       (when handler
-        (throw (ex-info "Cannot use non-function life-cycle hook when glitter.core/*dispatch* is not bound to a function"
+        (throw (ex-info (str "Cannot use non-function life-cycle hook " (pr-str handler)
+                             ": no dispatch function is registered."
+                             " Call glitter.core/set-dispatch! before mounting.")
                         {:handler handler
                          :dispatch *dispatch*})))))
 
