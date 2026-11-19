@@ -78,3 +78,20 @@
             live event dispatch outside a browser)"
     (is (= "the-widget"
            (:glitter/node (core/build-event-map {:glitter/node "the-widget"}))))))
+
+(defn- thrown-message [f]
+  (try (f) nil (catch Exception e (ex-message e))))
+
+(deftest data-handler-without-dispatch-names-set-dispatch!
+  (testing "a data event handler with no dispatch fn says how to fix it"
+    (binding [core/*dispatch* nil]
+      (let [msg (thrown-message #(render [:button {:on {:click [:action/inc]}} "+"]))]
+        (is (some? msg))
+        (is (re-find #"Cannot use non-function event handler" msg))
+        (is (re-find #"glitter\.core/set-dispatch!" msg))
+        (is (re-find #"before" msg)))))
+  (testing "same for a data life-cycle hook"
+    (binding [core/*dispatch* nil]
+      (let [msg (thrown-message #(render [:div {:glitter/on-mount [:action/mounted]} "x"]))]
+        (is (some? msg))
+        (is (re-find #"glitter\.core/set-dispatch!" msg))))))
