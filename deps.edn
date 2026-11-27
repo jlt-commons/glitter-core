@@ -18,7 +18,7 @@
  ;; rejects, so the old pin no longer loads.
  :deps {io.github.jolt-lang/time
         {:git/url "https://github.com/jolt-lang/time"
-         :git/sha "80e5fc22d9ddd8ee2f2f525580fbc643d0ecba4c"}}
+         :git/sha "5104b050e331ff4fadd7488c958bf121ca5c91d9"}}
 
  ;; glitter.nexus.action-log-test dispatches through nexus.core/dispatch to
  ;; exercise the action-log interceptor against a REAL dispatch, not a mock
